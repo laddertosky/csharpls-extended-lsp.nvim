@@ -46,6 +46,7 @@ end
 --- @inlinedoc
 --- @field source string
 --- @field assemblyName string
+--- @field symbolName string
 ---
 --- @param result buf_from_metadata.result
 --- @param client_id integer
@@ -57,9 +58,8 @@ M.buf_from_metadata = function(result, client_id)
 
     -- normalize backwards slash to forwards slash
     local normalized_source_name = string.gsub(result.assemblyName, "\\", "/")
-    local file_name = "/" .. normalized_source_name
+    local file_name = "csharp://metadata/" .. normalized_source_name .. "/" .. result.symbolName
 
-    -- this will be /$metadata$/...
     local bufnr = utils.get_or_create_buf(file_name)
     -- TODO: check if bufnr == 0 -> error
     vim.api.nvim_set_option_value("modifiable", true, { buf = bufnr })
